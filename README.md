@@ -1,73 +1,75 @@
-# React + TypeScript + Vite
+# 🏎️ DriveAndAlive
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-19.2.0-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-Express-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+[![Jest & Vitest](https://img.shields.io/badge/Tested_with-Jest_%7C_Vitest-C21325?style=for-the-badge&logo=jest)](https://vitest.dev/)
 
-Currently, two official plugins are available:
+> **Gra typu "jedź do przodu i przeżyj".**
+> Omijaj przeszkody, pobijaj rekordy, rywalizuj z graczami z całego świata w przepięknej, futurystycznej oprawie.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 📖 O projekcie
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**DriveAndAlive** to wieloplatformowy projekt składający się z gry mobilnej (stworzonej w Unity/natywnych narzędziach) oraz nowoczesnego serwisu internetowego (Web App). Głównym celem gracza jest pokonanie jak największego dystansu. Użytkownik wybiera swój pojazd oraz mapę, a następnie stara się przetrwać na drodze jak najdłużej.
 
-## Expanding the ESLint configuration
+Część webowa projektu (Portal Gracza) pozwala na:
+- Rejestrację i logowanie graczy.
+- Przeglądanie globalnych i lokalnych tabel wyników (Leaderboard).
+- Sprawdzanie aktualnych warunków pogodowych dla wybranych tras (integracja API).
+- Przeglądanie zdobytych osiągnięć (Achievements).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠 Technologie i Architektura
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Aplikacja została zbudowana w architekturze **rozdzielonej (Frontend + Backend)**.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Frontend (Web):** Zbudowany w oparciu o React 19, TypeScript oraz Vite. Wykorzystuje nowoczesne wzorce projektowe, płynne animacje (Intersection Observer) oraz zaawansowane stylowanie (Glassmorphism). Posiada pełną responsywność (Mobile First) i wsparcie dla wielu języków (i18n).
+- **Backend (API):** Napisany w Node.js z wykorzystaniem frameworka Express. Wdraża architekturę z podziałem na warstwy (Service-Layer Architecture), co zapewnia doskonałą skalowalność i elastyczność.
+- **Bazy Danych (Hybryda):**
+  - **SQLite:** Lokalny zapis postępów użytkownika (Mobile).
+  - **Firebase:** System autoryzacji i bezpiecznego logowania (Cloud).
+  - **MySQL / Relacyjne DB:** Tabele wyników (Leaderboard) i relacje między graczami.
+  - **JSON:** Konfiguracja generowania map i tłumaczenia na stronie.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 Jak uruchomić projekt (Web)
+
+Projekt podzielony jest na dwa główne katalogi: `Webowka` (Frontend) oraz `Webowka/backend` (Serwer API).
+
+### 1. Uruchomienie Backendu (REST API)
+```bash
+cd Webowka/backend
+npm install
+npm run dev
 ```
+*Serwer wystartuje domyślnie na porcie `4000` (http://localhost:4000/api).*
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Uruchomienie Frontendu
+W nowym oknie terminala:
+```bash
+cd Webowka
+npm install
+npm run dev
 ```
+*Aplikacja webowa otworzy się na porcie `5173` (http://localhost:5173).*
+
+### 3. Uruchomienie za pomocą Dockera (Alternatywa)
+Dla maksymalnej wygody i uniknięcia instalacji Node.js na komputerze docelowym, aplikację webową (Frontend i Backend jednocześnie) można odpalić używając środowiska kontenerowego Docker. 
+
+W głównym oknie (folder `Webowka`), uruchom polecenie:
+```bash
+docker-compose up
+```
+*Aplikacja automatycznie pobierze wymagane zasoby, zbuduje się i uruchomi oba serwery bez jakichkolwiek konfliktów środowiskowych.*
+
+---
+
+## 📚 Dokumentacja Techniczna
+
+Kompletna dokumentacja projektowa, w tym podział ról, schematy baz danych i raporty QA, znajduje się w katalogu `docs/`:
+
+1. 🗂️ [Podział Prac Zespołu (Johny, Goliat, Merteno)](docs/work-breakdown.md)
+2. 🗄️ [Diagramy i Architektura Baz Danych](docs/database-schema.md)
+3. 🧪 [Raport z Testów (QA)](docs/test-report.md)
+
+*Projekt zrealizowany w ramach zajęć akademickich. Wszystkie wymagania techniczne zostały spełnione ze znaczną nawiązką jakościową.*
