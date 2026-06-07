@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <title>DriveAndAlive</title>
+    <script>
+      // GitHub Pages SPA fix
+      // Encodes the current path into a query string so the main index.html
+      // can restore it via history.replaceState after React Router loads.
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.host + '/?p=' + encodeURIComponent(l.pathname + l.search) + l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
